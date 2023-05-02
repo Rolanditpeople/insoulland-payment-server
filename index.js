@@ -6,7 +6,7 @@ const stripeTestEur = require('stripe')("sk_test_51Mtsz9BDk24l55XelH2Jx903NJ0mTf
 const cors = require('cors');
 const app = express();
 
-var allowlist = ['https://work.rmail.hu', "*"]; 
+var allowlist = ['https://work.rmail.hu', "http://localhost:3000"]; 
 var corsOptions = {
   origin: function (origin, callback) {
     if (allowlist.indexOf(origin) !== -1) {
