@@ -33,7 +33,7 @@ app.post('/create-payment-intent', function(request, res, next) {
     catch(next);
 });
 
-app.post('/test-create-payment-intent', function(request, res, next) {
+app.post('/create-payment-intent-test', function(request, res, next) {
   const amount = request.body.amount;
   const currency = request.body.currency;
 
