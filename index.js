@@ -1,19 +1,19 @@
 'use strict';
 
 const express = require('express');
-const stripeLiveHuf = require('stripe')("sk_test_51Mtsz9BDk24l55XelH2Jx903NJ0mTfZuXagQOuFuTjBBk7rDTWKha8Ze01vH1OUQ78zUuzykOL2zN974VdkqM9BZ00Jioz6Ie4");
-const stripeTestEur = require('stripe')("sk_test_51Mtsz9BDk24l55XelH2Jx903NJ0mTfZuXagQOuFuTjBBk7rDTWKha8Ze01vH1OUQ78zUuzykOL2zN974VdkqM9BZ00Jioz6Ie4");
+const stripeLiveHuf = require('stripe')("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");
+const stripeTestEur = require('stripe')("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");
 const cors = require('cors');
 const app = express();
 
-var allowlist = ['https://work.rmail.hu', "http://localhost:3000"]; 
+var allowlist = ['https://work.rmail.hu', "http://localhost:3000", "https://insoulland.com"]; 
 var corsOptions = {
   origin: function (origin, callback) {
-    if (allowlist.indexOf(origin) !== -1) {
-      callback(null, true)
+    callback(null, true);
+    /*if (allowlist.indexOf(origin) !== -1) {
     } else {
       callback(new Error('Not allowed by CORS'))
-    }
+    }*/
   }
 };
 
@@ -44,6 +44,26 @@ app.post('/create-payment-intent-test', function(request, res, next) {
 
 app.get('/test-me', function(req, res, next) {
   res.send("online");
+});
+
+app.get("/create-subscription", async (req, res) => {
+  console.log(req.query.priceId);
+  const session = await stripeTestEur.checkout.sessions.create({
+    mode: 'subscription',
+    line_items: [
+      {
+        price: req.query.priceId,
+        quantity: 1,
+      },
+    ],
+    // {CHECKOUT_SESSION_ID} is a string literal; do not change it!
+    // the actual Session ID is returned in the query parameter when your customer
+    // is redirected to the success page.
+    success_url: 'http://localhost:8080/success?session_id={CHECKOUT_SESSION_ID}',
+    cancel_url: 'http://localhost:8080/canceled',
+  });
+
+  res.redirect(303, session.url);
 });
 
 app.listen(process.env.PORT || 8080);
