@@ -66,4 +66,21 @@ app.get("/create-subscription", async (req, res) => {
   res.redirect(303, session.url);
 });
 
+app.get("/create-customer", (request, response) => {
+  stripeLiveHuf.customers.create({
+    email: request.query.email,
+    address: {
+      city: request.query.city,
+      country: request.query.country,
+      line1: request.query.address,
+      line2: "",
+      postal_code: request.query.zip,
+      state: request.query.state
+    },
+    name: request.query.name
+  });
+
+  response.send(JSON.stringify({ message: "successful customer creation!" }));
+});
+
 app.listen(process.env.PORT || 8080);
