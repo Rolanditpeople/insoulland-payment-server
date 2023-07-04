@@ -59,7 +59,7 @@ app.get("/create-subscription", async (req, res) => {
     // {CHECKOUT_SESSION_ID} is a string literal; do not change it!
     // the actual Session ID is returned in the query parameter when your customer
     // is redirected to the success page.
-    success_url: 'https://insoulland.com/success?session_id={CHECKOUT_SESSION_ID}',
+    success_url: 'https://insoulland.com/successful?session_id={CHECKOUT_SESSION_ID}',
     cancel_url: 'https://insoulland.com/',
   });
 
