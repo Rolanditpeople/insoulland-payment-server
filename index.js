@@ -50,6 +50,7 @@ app.get("/create-subscription", async (req, res) => {
   console.log(req.query.priceId);
   const session = await stripeTestEur.checkout.sessions.create({
     mode: 'subscription',
+    customer: req.query.client_id,
     line_items: [
       {
         price: req.query.priceId,
